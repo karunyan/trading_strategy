@@ -1,4 +1,1 @@
-trading_strategy
-================
-
-This is to track some of the trading strategies
+This github repository is to keep track of trading strategies I am currently exploring 
