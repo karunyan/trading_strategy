@@ -1,0 +1,72 @@
+Sub Open_Raw_Data()
+
+    Workbooks.Open ("D:\Trading_Strategy\rawCalendarData\eventdates.20130129.csv")
+
+    Call Data
+    Call CSS
+    
+End Sub
+
+Sub Data()
+' Individual File Data Cleansing
+    LastRow = Range("A65536").End(xlUp).Row
+    Columns("A:A").Select
+    Selection.Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove
+    Columns("C:C").Select
+    Selection.Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove
+    Columns("B:B").Select
+    Selection.TextToColumns Destination:=Range("B1"), DataType:=xlDelimited, _
+        TextQualifier:=xlDoubleQuote, ConsecutiveDelimiter:=True, Tab:=False, _
+        Semicolon:=False, Comma:=False, Space:=True, Other:=False, FieldInfo _
+        :=Array(Array(1, 1), Array(2, 1)), TrailingMinusNumbers:=True
+    Columns("C:C").Select
+    Selection.NumberFormat = "[$-409]h:mm AM/PM;@"
+    Range("A2").Select
+    ActiveCell.FormulaR1C1 = "=DATE(MID(RC[1],1,4),MID(RC[1],5,2),MID(RC[1],7,2))"
+    Range("A2").Select
+    Selection.AutoFill Destination:=Range("A2:A" & LastRow), Type:=xlFillDefault
+    Range("A2:A127").Select
+    Columns("F:F").Select
+    Selection.AutoFilter
+    ActiveSheet.Range("$F$1:$F$" & LastRow).AutoFilter Field:=1, Criteria1:="3"
+
+
+End Sub
+
+Sub CSS()
+
+' Format
+    Range("A1").Select
+    ActiveCell.FormulaR1C1 = "Date"
+    Range("C1").Select
+    ActiveCell.FormulaR1C1 = "Time"
+    Columns("A:C").Select
+    Selection.ColumnWidth = 10
+    Columns("B:B").Select
+    Selection.EntireColumn.Hidden = True
+    Columns("D:D").Select
+    Selection.ColumnWidth = 53
+    Columns("E:E").Select
+    Selection.ColumnWidth = 19
+    Columns("G:I").Select
+    Selection.ColumnWidth = 10
+    With Selection
+        .HorizontalAlignment = xlRight
+        .VerticalAlignment = xlBottom
+        .WrapText = False
+        .Orientation = 0
+        .AddIndent = False
+        .IndentLevel = 0
+        .ShrinkToFit = False
+        .ReadingOrder = xlContext
+        .MergeCells = False
+    End With
+
+
+End Sub
+
+
+
+
+
+
