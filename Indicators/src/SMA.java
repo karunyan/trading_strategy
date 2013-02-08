@@ -1,5 +1,5 @@
 /**
- * @author Karunyan Krishnasamy
+ * @author http://rosettacode.org/wiki/Averages/Simple_moving_average#Java
  *
  */
 
@@ -8,13 +8,18 @@ import java.util.Queue;
 
 public class SMA {
 	/**
-	 * @param Simple Moving Average Indicator 
-	 *          
+	 * @param Simple Moving Average Indicator
+	 *            
 	 */
 
-	private int period;
+	private final int period;
+	private final Queue<Double> window = new LinkedList<Double>();
 	private double sum;
-	private Queue<Double> window = new LinkedList<Double>();
+
+	public SMA(int period) {
+		assert (period > 0) : "Period must be positive integer";
+		this.period = period;
+	}
 
 	public void newNum(double num) {
 		sum += num;
@@ -30,11 +35,6 @@ public class SMA {
 		} else {
 			return sum / period;
 		}
-	}
-
-	public void setPeriod(int period) {
-		assert (period > 0) : "Period must be positive integer";
-		this.period = period;
 	}
 
 }
