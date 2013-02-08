@@ -3,39 +3,38 @@
  *
  */
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class SMA {
 	/**
-	 * @param Simple Moving Average Indicator
+	 * @param Simple Moving Average Indicator 
+	 *          
 	 */
 
 	private int period;
-//	TODO: variable to set color for indicator
-	
-//	Note that you will need to handle the start and end 
-//	parts of the data since clearly you can't average 
-//	the last 5 terms when you are on your 2nd data point. 
-//	Also, there are more efficient ways of calculating this 
-//	moving average(sum = sum - oldest + newest), but this is
-//	to get the concept of what's happening across
-//	
-//	SAMPLE CODE
-//	int data[] = getFilled();
-//	int outdata[] = initializeme()
-//	for (int y = 0; y < data.length; y++)
-//	    int sum = 0;
-//	    for (int x = y; x < y-5; x++)
-//	        sum+=data[x];
-//	    outdata[y] = sum / 5;
-//	
-//	
-	public int getPeriod() {
-		return period;
+	private double sum;
+	private Queue<Double> window = new LinkedList<Double>();
+
+	public void newNum(double num) {
+		sum += num;
+		window.add(num);
+		if (window.size() > period) {
+			sum -= window.remove();
+		}
+	}
+
+	public double getAvg() {
+		if (window.isEmpty() || window.size() < period) {
+			return -1; // Do not plot indicator value
+		} else {
+			return sum / period;
+		}
 	}
 
 	public void setPeriod(int period) {
+		assert (period > 0) : "Period must be positive integer";
 		this.period = period;
 	}
-	
-			
-	
+
 }
